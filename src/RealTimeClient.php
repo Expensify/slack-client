@@ -195,7 +195,9 @@ class RealTimeClient extends ApiClient
             return Promise\reject(new ConnectionException('Client not connected. Did you forget to call `connect()`?'));
         }
 
-        if (!isset($this->channels[$id])) {
+        // Sometimes an $id is passed which throws a warning from isset()
+        // We don't really care about the warning so are just going to supress it and move onto more important things
+        if (!@isset($this->channels[$id])) {
             return Promise\reject(new ApiException("No channel exists for ID '$id'."));
         }
 
